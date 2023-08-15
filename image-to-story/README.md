@@ -1,7 +1,7 @@
 
 # Image to Story
 
-Uses Hugging Face models to generate a story given an image. Models used are `Salesforce/blip-image-captioning-base` and `tiiuae/falcon-7b-instruct` for image captioning and story generation respectively. Note that the falcon-7b llm is accessed using the Hugging Face Inference API and is therefore rate limited.
+Uses Hugging Face models to generate a story given an image. A Hugging Face pipeline is used to caption the image whose output is then passed onto a Langchain LLM chain which calls the Hugging Face Inference API. Models used are `Salesforce/blip-image-captioning-base` and `tiiuae/falcon-7b-instruct` for image captioning and story generation respectively. Note that the falcon-7b llm is accessed using the Hugging Face Inference API and is therefore rate limited.
 
 
 ## Environment Variables
