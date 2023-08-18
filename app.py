@@ -2,8 +2,11 @@ from dotenv import load_dotenv, find_dotenv
 from transformers import pipeline
 from langchain import PromptTemplate, LLMChain
 from langchain.llms import HuggingFaceTextGenInference
+import streamlit as st
+
 import requests
 import os
+
 
 
 load_dotenv(find_dotenv())
@@ -51,5 +54,30 @@ def text_to_story(context):
     print(story)
     return story
 
-prompt = img_to_text("soccer.jpg")
-story = text_to_story(prompt)
+
+
+
+
+
+def main():
+    st.title("Image to Story")
+    st.write("This app generates a story based on an image. Upload an image and click the button below to generate a story.")
+    uploaded_file = st.file_uploader("Choose an image...", type="jpg")
+    if uploaded_file is not None:
+        image = uploaded_file.getvalue()
+        st.image(image, caption='Uploaded Image.', use_column_width=True)
+        st.write("")
+        st.write("Generating story...")
+
+        img_name = uploaded_file.name
+
+        with open(img_name, "wb") as f:
+            f.write(image)
+
+        prompt = img_to_text(img_name)
+        story = text_to_story(prompt)
+        st.write(story)
+        st.write("Done!")
+
+if __name__ == "__main__":
+    main()
