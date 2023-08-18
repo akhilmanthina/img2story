@@ -76,7 +76,11 @@ def main():
 
         prompt = img_to_text(img_name)
         story = text_to_story(prompt)
-        st.write(story)
+        
+        story = story.rsplit('User', 1)[0]
+
+
+        st.markdown(story, unsafe_allow_html=True)
         st.write("Done!")
 
 if __name__ == "__main__":
