@@ -1,1 +1,11 @@
 .env
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.ico
+*.svg
+*.tif
+*.tiff
+*.webp
