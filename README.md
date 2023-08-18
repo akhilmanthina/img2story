@@ -10,4 +10,9 @@ To run this project, you will need to add the following environment variable to 
 
 `API_TOKEN = "yourhuggingfaceapitoken"`
 
+## Required Imports
+
+You must `pip install` the following libraries: `dotenv`, `transformers`, and `langchain`
+
+
 
