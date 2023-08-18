@@ -61,27 +61,30 @@ def text_to_story(context):
 
 def main():
     st.title("Image to Story")
-    st.write("This app generates a story based on an image. Upload an image and click the button below to generate a story.")
+    st.write("This app generates a story based on an image. Upload an image and click the button below to try it out!")
     uploaded_file = st.file_uploader("Choose an image...", type="jpg")
     if uploaded_file is not None:
         image = uploaded_file.getvalue()
         st.image(image, caption='Uploaded Image.', use_column_width=True)
         st.write("")
-        st.write("Generating story...")
+        
 
         img_name = uploaded_file.name
 
         with open(img_name, "wb") as f:
             f.write(image)
 
-        prompt = img_to_text(img_name)
-        story = text_to_story(prompt)
-        
-        story = story.rsplit('User', 1)[0]
+        with st.spinner("Generating story..."):
+            prompt = img_to_text(img_name)
+            story = text_to_story(prompt)
+            
+            story = story.rsplit('User', 1)[0]
 
-
-        st.markdown(story, unsafe_allow_html=True)
-        st.write("Done!")
+            with st.expander("Prompt"):
+                st.write(prompt)
+            with st.expander("Story"):
+                st.markdown(story, unsafe_allow_html=True)
+        #st.write("Done!")
 
 if __name__ == "__main__":
     main()
