@@ -1,6 +1,5 @@
 from dotenv import load_dotenv, find_dotenv
 from transformers import pipeline
-from transformers import AutoTokenizer, AutoModelForCausalLM
 from langchain import PromptTemplate, LLMChain
 from langchain.llms import HuggingFaceTextGenInference
 import requests
