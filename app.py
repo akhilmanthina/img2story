@@ -1,4 +1,4 @@
-from dotenv import load_dotenv, find_dotenv
+
 from transformers import pipeline
 from langchain import PromptTemplate, LLMChain
 from langchain.llms import HuggingFaceTextGenInference
@@ -9,10 +9,9 @@ import os, glob
 
 
 
-load_dotenv(find_dotenv())
 
 API_URL = "https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct"
-API_TOKEN = os.getenv("API_TOKEN")
+API_TOKEN = st.secrets["API_TOKEN"]
 headers = {"Authorization": f"Bearer {API_TOKEN}"}
 
 def query(payload):
@@ -89,9 +88,6 @@ def main():
             with st.expander("Story"):
                 st.markdown(story, unsafe_allow_html=True)
         #st.write("Done!")
-
-        
-        
 
 
 if __name__ == "__main__":
