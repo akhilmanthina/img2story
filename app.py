@@ -74,7 +74,7 @@ def main():
         img_name = uploaded_file.name
         img_path = "./uploads/" + img_name
 
-        with open(img_path, "wb") as f:
+        with open(img_path, "w+") as f:
             f.write(image)
 
         with st.spinner("Generating story..."):
