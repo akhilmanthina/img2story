@@ -5,7 +5,7 @@ from langchain.llms import HuggingFaceTextGenInference
 import streamlit as st
 
 import requests
-import os
+import os, glob
 
 
 
@@ -35,7 +35,7 @@ def text_to_story(context):
    
     prompt = PromptTemplate.from_template(
     """
-    You are a storyteller. You can generate a short story based on a simple narrative. The story should be around 100 words long.
+    You are an expert storyteller. You can generate a short story based on a simple narrative. The story should be around 500 words long.
     CONTEXT: {context}
     """
     )
@@ -54,7 +54,10 @@ def text_to_story(context):
     print(story)
     return story
 
-
+def clear_uploads():
+    file_list = glob.glob('./uploads/*')
+    for f in file_list:
+        os.remove(f)
 
 
 
@@ -70,12 +73,13 @@ def main():
         
 
         img_name = uploaded_file.name
+        img_path = "./uploads/" + img_name
 
-        with open(img_name, "wb") as f:
+        with open(img_path, "wb") as f:
             f.write(image)
 
         with st.spinner("Generating story..."):
-            prompt = img_to_text(img_name)
+            prompt = img_to_text(img_path)
             story = text_to_story(prompt)
             
             story = story.rsplit('User', 1)[0]
@@ -86,5 +90,10 @@ def main():
                 st.markdown(story, unsafe_allow_html=True)
         #st.write("Done!")
 
+        
+        
+
+
 if __name__ == "__main__":
     main()
+    clear_uploads()
