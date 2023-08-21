@@ -3,3 +3,4 @@ langchain
 requests
 Pillow
 torch
+text_generation
