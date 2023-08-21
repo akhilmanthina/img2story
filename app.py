@@ -3,9 +3,9 @@ from transformers import pipeline
 from langchain import PromptTemplate, LLMChain
 from langchain.llms import HuggingFaceTextGenInference
 import streamlit as st
-
+from PIL import Image
 import requests
-import os, glob
+import os, glob, io
 
 
 
@@ -18,10 +18,12 @@ def query(payload):
 	response = requests.post(API_URL, headers=headers, json=payload)
 	return response.json()
 
-def img_to_text(img_path):
+def img_to_text(img):
+    
     model_pipeline = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
-
-    text = model_pipeline(img_path)[0]["generated_text"]
+    #print(help(model_pipeline))
+    text = model_pipeline(img)[0]["generated_text"]
+    
 
     #print(text)
     return text
@@ -34,7 +36,7 @@ def text_to_story(context):
    
     prompt = PromptTemplate.from_template(
     """
-    You are an expert storyteller. You can generate a short story based on a simple narrative. The story should be around 500 words long.
+    You are an expert storyteller. You can generate a short story based on a simple narrative. The story should be around 200 words long.
     CONTEXT: {context}
     """
     )
@@ -53,10 +55,6 @@ def text_to_story(context):
     print(story)
     return story
 
-def clear_uploads():
-    file_list = glob.glob('./uploads/*')
-    for f in file_list:
-        os.remove(f)
 
 
 
@@ -71,14 +69,13 @@ def main():
         st.write("")
         
 
-        img_name = uploaded_file.name
-        img_path = "./uploads/" + img_name
+        image = Image.open(io.BytesIO(image))
 
-        with open(img_path, "w+") as f:
-            f.write(image)
+
+
 
         with st.spinner("Generating story..."):
-            prompt = img_to_text(img_path)
+            prompt = img_to_text(image)
             story = text_to_story(prompt)
             
             story = story.rsplit('User', 1)[0]
@@ -92,4 +89,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    clear_uploads()
